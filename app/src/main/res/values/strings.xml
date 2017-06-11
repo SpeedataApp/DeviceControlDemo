@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">DeviceControlDemo</string>
+    <string name="reboot">重启</string>
+    <string name="shutdown">关机</string>
+    <string name="recovery">恢复出厂设置</string>
+    <string name="set_time">设置系统时间</string>
+    <string name="create_apn">创建APN</string>
+    <string name="uninstall">卸载app</string>
+    <string name="install">安装app</string>
+</resources>
