@@ -7,9 +7,12 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.telephony.TelephonyManager;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
 
 import com.android.control.ControlManager;
 
@@ -19,6 +22,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private ControlManager mControlManager;
     private static final String TAG = "Reginer";
+    private EditText mEtPkg;
+    private EditText mEtApk;
 
 
     @Override
@@ -44,6 +49,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mBtnUninstall.setOnClickListener(this);
         Button mBtnInstall = (Button) findViewById(R.id.btn_install);
         mBtnInstall.setOnClickListener(this);
+        mEtPkg = (EditText) findViewById(R.id.et_pkg);
+        mEtApk = (EditText) findViewById(R.id.et_apk);
     }
 
     @Override
@@ -67,13 +74,32 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 Log.d(TAG, "apnId  is: " + apnId);
                 break;
             case R.id.btn_uninstall:
-                mControlManager.uninstallApp("win.reginer.life");
+                submitPkg();
                 break;
             case R.id.btn_install:
-                String path = Environment.getExternalStorageDirectory().getAbsolutePath();
-                mControlManager.installApp(Uri.fromFile(new File(path+File.separator+"DeviceControl.apk")));
+                submitPath();
                 break;
         }
+    }
+
+
+    private void submitPkg() {
+        String pkg = mEtPkg.getText().toString().trim();
+        if (TextUtils.isEmpty(pkg)) {
+            Toast.makeText(this, "content null", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        mControlManager.uninstallApp(pkg);
+    }
+
+    private void submitPath() {
+        String apk = mEtApk.getText().toString().trim();
+        if (TextUtils.isEmpty(apk)) {
+            Toast.makeText(this, "content null", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        String path = Environment.getExternalStorageDirectory().getAbsolutePath();
+        mControlManager.installApp(Uri.fromFile(new File(path + File.separator + apk + ".apk")));
     }
 
     private ContentValues createApn() {

@@ -22,26 +22,43 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/shutdown"/>
+
         <Button
             android:id="@+id/btn_recovery"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/recovery"/>
+
         <Button
             android:id="@+id/btn_set_time"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/set_time"/>
+
         <Button
             android:id="@+id/btn_create_apn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/create_apn"/>
+
+        <EditText
+            android:id="@+id/et_pkg"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/pkg_name"/>
+
         <Button
             android:id="@+id/btn_uninstall"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/uninstall"/>
+
+        <EditText
+            android:id="@+id/et_apk"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/apk_name"/>
+
         <Button
             android:id="@+id/btn_install"
             android:layout_width="match_parent"

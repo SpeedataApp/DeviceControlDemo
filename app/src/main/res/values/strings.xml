@@ -7,4 +7,6 @@
     <string name="create_apn">创建APN</string>
     <string name="uninstall">卸载app</string>
     <string name="install">安装app</string>
+    <string name="pkg_name">卸载apk包名</string>
+    <string name="apk_name">安装apk名称</string>
 </resources>
