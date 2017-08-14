@@ -2,9 +2,7 @@ package com.speedata.control;
 
 import android.content.ContentValues;
 import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.telephony.TelephonyManager;
 import android.text.TextUtils;
@@ -15,8 +13,6 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.android.control.ControlManager;
-
-import java.io.File;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -89,7 +85,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             Toast.makeText(this, "content null", Toast.LENGTH_SHORT).show();
             return;
         }
-        mControlManager.uninstallApp(pkg);
+        boolean result = mControlManager.uninstallApp(pkg);
+
+        Log.d(TAG, "result is:::: " + result);
     }
 
     private void submitPath() {
@@ -98,8 +96,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             Toast.makeText(this, "content null", Toast.LENGTH_SHORT).show();
             return;
         }
-        String path = Environment.getExternalStorageDirectory().getAbsolutePath();
-        mControlManager.installApp(Uri.fromFile(new File(path + File.separator + apk + ".apk")));
+        boolean result = mControlManager.installApp(apk);
+        Log.d(TAG, "result is:::: " + result);
     }
 
     private ContentValues createApn() {

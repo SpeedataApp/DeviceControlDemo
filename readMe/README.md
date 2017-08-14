@@ -4,4 +4,5 @@ DeviceControl演示程序
 
 系统签名方法：
 
-http://gqdy365.iteye.com/blog/2111949
+java -jar signapk.jar platform.x509.pem platform.pk8 app-release.apk ControlSigned.apk
+
