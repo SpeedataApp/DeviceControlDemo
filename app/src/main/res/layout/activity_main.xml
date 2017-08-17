@@ -40,6 +40,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/create_apn"/>
+        <Button
+            android:id="@+id/btn_set_apn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/set_apn"/>
 
         <EditText
             android:id="@+id/et_pkg"

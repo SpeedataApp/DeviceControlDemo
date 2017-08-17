@@ -9,4 +9,5 @@
     <string name="install">安装app</string>
     <string name="pkg_name">卸载apk包名</string>
     <string name="apk_name">安装apk名称</string>
+    <string name="set_apn">设置apn</string>
 </resources>

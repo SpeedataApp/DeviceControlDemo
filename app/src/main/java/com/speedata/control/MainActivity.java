@@ -1,7 +1,10 @@
 package com.speedata.control;
 
+import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.telephony.TelephonyManager;
@@ -20,6 +23,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private static final String TAG = "Reginer";
     private EditText mEtPkg;
     private EditText mEtApk;
+    private int apnId;
 
 
     @Override
@@ -41,6 +45,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mBtnSetTime.setOnClickListener(this);
         Button mBtnCreateApn = (Button) findViewById(R.id.btn_create_apn);
         mBtnCreateApn.setOnClickListener(this);
+        findViewById(R.id.btn_set_apn).setOnClickListener(this);
         Button mBtnUninstall = (Button) findViewById(R.id.btn_uninstall);
         mBtnUninstall.setOnClickListener(this);
         Button mBtnInstall = (Button) findViewById(R.id.btn_install);
@@ -65,9 +70,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 mControlManager.setSystemTime(1497369600);
                 break;
             case R.id.btn_create_apn:
-                int apnId;
                 apnId = mControlManager.createApn(createApn());
                 Log.d(TAG, "apnId  is: " + apnId);
+                break;
+            case R.id.btn_set_apn:
+                setDefaultApn(apnId);
                 break;
             case R.id.btn_uninstall:
                 submitPkg();
@@ -78,6 +85,32 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
+    /**
+     * 设置默认选中apn
+     * @param apnId apnId
+     * @return  successful  or  failed
+     */
+    public boolean setDefaultApn(int apnId) {
+         final Uri CURRENT_APN_URI = Uri.parse("content://telephony/carriers/preferapn");
+        boolean res = false;
+        ContentResolver resolver = getContentResolver();
+        ContentValues values = new ContentValues();
+        values.put("apn_id", apnId);
+
+        try {
+            resolver.update(CURRENT_APN_URI, values, null, null);
+            Cursor c = resolver.query(CURRENT_APN_URI, new String[] { "name",
+                    "apn" }, "_id=" + apnId, null, null);
+            if (c != null) {
+                res = true;
+                c.close();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return res;
+    }
 
     private void submitPkg() {
         String pkg = mEtPkg.getText().toString().trim();
@@ -101,18 +134,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private ContentValues createApn() {
-        String NUMERIC;
+        String numeric;
         TelephonyManager telephonyManager = (TelephonyManager)
                 getSystemService(Context.TELEPHONY_SERVICE);
-        NUMERIC = telephonyManager.getSimOperator();
-        String[] EM_APN = {"Speedata", "spd", "460", "02", "default,supl"};
+        numeric = telephonyManager.getSimOperator();
         ContentValues values = new ContentValues();
-        values.put("name", EM_APN[0]);
-        values.put("apn", EM_APN[1]);
-        values.put("type", EM_APN[4]);
-        values.put("numeric", NUMERIC);
+        values.put("name", "speedata");
+        values.put("apn", "myapn");
+        values.put("type", "default,supl");
+        values.put("numeric", numeric);
         values.put("mcc", "460");
-        values.put("mnc", "00");
+        values.put("mnc", "01");
         values.put("proxy", "");
         values.put("port", "");
         values.put("mmsproxy", "");
